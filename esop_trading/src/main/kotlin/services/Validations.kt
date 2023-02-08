@@ -3,6 +3,7 @@ package services
 import constants.PhoneNumber
 import models.DataStorage
 import models.RegisterInput
+import repositories.UserRepository
 
 class Validations {
     companion object {
@@ -62,7 +63,7 @@ class Validations {
                 return errorList
             }
 
-            if (DataStorage.userList.contains(username))
+            if (UserRepository.checkIfUserExist(username))
                 errorList.add("Username already taken")
 
             if (username.length < 3)
@@ -76,7 +77,7 @@ class Validations {
         }
 
         fun validateUser(userName: String): Boolean {
-            if (DataStorage.userList.containsKey(userName)) {
+            if (UserRepository.checkIfUserExist(userName)) {
                 return true
             }
             return false
@@ -90,7 +91,7 @@ class Validations {
             }
 
 
-            if (DataStorage.registeredEmails.contains(emailId)) {
+            if (UserRepository.checkIfEmailExist(emailId)) {
                 errorList.add("Email already exists")
             }
             if (emailId.first() == '.' || emailId.first() == '-' || emailId.last() == '.' || emailId.last() == '-') {
@@ -140,34 +141,34 @@ class Validations {
                 errorList.add("phoneNumber is missing.")
                 return errorList
             }
-            if (DataStorage.registeredPhoneNumbers.contains(phoneNumber)) {
+            if (UserRepository.checkIfPhoneNumberExists(phoneNumber)) {
                 errorList.add(PhoneNumber.ALREADY_EXISTS_ERROR_MESSAGE)
                 return errorList
             }
-            if (phoneNumber.length < 10 || phoneNumber.length>14) {
+            if (phoneNumber.length < 10 || phoneNumber.length > 14) {
                 errorList.add(PhoneNumber.INVALID_LENGTH_ERROR_MESSAGE)
                 return errorList
             }
-            val code=countryCode(phoneNumber)
-            if(code.length==1 && code[0]!='0' ){
-                    errorList.add(PhoneNumber.TRUNK_ERROR_MESSAGE)
-                    return errorList
+            val code = countryCode(phoneNumber)
+            if (code.length == 1 && code[0] != '0') {
+                errorList.add(PhoneNumber.TRUNK_ERROR_MESSAGE)
+                return errorList
             }
-            if(code.isNotEmpty() && !code.matches(Regex("\\+?\\d*"))){
+            if (code.isNotEmpty() && !code.matches(Regex("\\+?\\d*"))) {
                 errorList.add(PhoneNumber.COUNTRY_CODE_ERROR_MESSAGE)
                 return errorList
             }
-            val number=phoneNumber.subSequence(code.length,phoneNumber.length)
-            if(!number.matches(Regex("\\d*"))){
+            val number = phoneNumber.subSequence(code.length, phoneNumber.length)
+            if (!number.matches(Regex("\\d*"))) {
                 errorList.add(PhoneNumber.NON_NUMERICAL_ERROR_MESSAGE)
             }
             return errorList
         }
 
         private fun countryCode(phoneNumber: String): String {
-                if (phoneNumber.length == 10 || (phoneNumber.length==11 && phoneNumber[0]=='0'))
-                    return ""
-                return phoneNumber.subSequence(0,phoneNumber.length-10).toString()
+            if (phoneNumber.length == 10 || (phoneNumber.length == 11 && phoneNumber[0] == '0'))
+                return ""
+            return phoneNumber.subSequence(0, phoneNumber.length - 10).toString()
 
 
         }
