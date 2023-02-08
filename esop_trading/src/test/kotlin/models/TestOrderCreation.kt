@@ -59,10 +59,10 @@ class TestOrderCreation {
 
         user.addOrderToExecutionQueue(1, "BUY", 100)
 
-        assertEquals("Unfilled", DataStorage.buyList.peek().orderStatus)
-        assertEquals(1, DataStorage.buyList.peek().orderQuantity)
-        assertEquals("BUY", DataStorage.buyList.peek().orderType)
-        assertEquals(100, DataStorage.buyList.peek().orderPrice)
+        assertEquals("Unfilled", DataStorage.buyList.peek().status)
+        assertEquals(1, DataStorage.buyList.peek().quantity)
+        assertEquals("BUY", DataStorage.buyList.peek().type)
+        assertEquals(100, DataStorage.buyList.peek().price)
         assertEquals(0, DataStorage.buyList.peek().orderExecutionLogs.size)
     }
 
@@ -117,10 +117,10 @@ class TestOrderCreation {
 
         user.addOrderToExecutionQueue(1, "SELL", 100)
 
-        assertEquals("Unfilled", DataStorage.sellList.peek().orderStatus)
-        assertEquals(1, DataStorage.sellList.peek().orderQuantity)
-        assertEquals("SELL", DataStorage.sellList.peek().orderType)
-        assertEquals(100, DataStorage.sellList.peek().orderPrice)
+        assertEquals("Unfilled", DataStorage.sellList.peek().status)
+        assertEquals(1, DataStorage.sellList.peek().quantity)
+        assertEquals("SELL", DataStorage.sellList.peek().type)
+        assertEquals(100, DataStorage.sellList.peek().price)
         assertEquals(0, DataStorage.sellList.peek().orderExecutionLogs.size)
     }
 
@@ -175,10 +175,10 @@ class TestOrderCreation {
 
         user.addOrderToExecutionQueue(1, "SELL", 100, "PERFORMANCE")
 
-        assertEquals("Unfilled", DataStorage.performanceSellList.peek().orderStatus)
-        assertEquals(1, DataStorage.performanceSellList.peek().orderQuantity)
-        assertEquals("SELL", DataStorage.performanceSellList.peek().orderType)
-        assertEquals(100, DataStorage.performanceSellList.peek().orderPrice)
+        assertEquals("Unfilled", DataStorage.performanceSellList.peek().status)
+        assertEquals(1, DataStorage.performanceSellList.peek().quantity)
+        assertEquals("SELL", DataStorage.performanceSellList.peek().type)
+        assertEquals(100, DataStorage.performanceSellList.peek().price)
         assertEquals(0, DataStorage.performanceSellList.peek().orderExecutionLogs.size)
     }
 

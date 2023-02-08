@@ -116,20 +116,20 @@ class User(
         orders.forEach { order ->
             val currentOrderDetails = mutableMapOf<String, Any>()
             currentOrderDetails["order_id"] = order.orderId
-            currentOrderDetails["quantity"] = order.orderQuantity
-            currentOrderDetails["type"] = order.orderType
-            currentOrderDetails["price"] = order.orderPrice
+            currentOrderDetails["quantity"] = order.quantity
+            currentOrderDetails["type"] = order.type
+            currentOrderDetails["price"] = order.price
 
 
-            if (order.orderStatus == "Unfilled") {
+            if (order.status == "Unfilled") {
                 val unfilledOrderExecutionLogs = ArrayList<Map<String, Any>>()
                 val currentOrderExecutionLogs = mutableMapOf<String, Any>()
-                currentOrderExecutionLogs["price"] = order.orderPrice
-                currentOrderExecutionLogs["quantity"] = order.orderQuantity
+                currentOrderExecutionLogs["price"] = order.price
+                currentOrderExecutionLogs["quantity"] = order.quantity
                 unfilledOrderExecutionLogs.add(currentOrderExecutionLogs)
                 currentOrderDetails["unfilled"] = unfilledOrderExecutionLogs
             } else {
-                if (order.orderStatus == "Partially Filled") {
+                if (order.status == "Partially Filled") {
                     val partiallyFilledOrderExecutionLogs = ArrayList<Map<String, Any>>()
                     order.orderExecutionLogs.forEach {
                         val currentOrderExecutionLogs = mutableMapOf<String, Any>()
@@ -141,11 +141,11 @@ class User(
 
                     val unfilledOrderExecutionLogs = ArrayList<Map<String, Any>>()
                     val currentOrderExecutionLogs = mutableMapOf<String, Any>()
-                    currentOrderExecutionLogs["price"] = order.orderPrice
+                    currentOrderExecutionLogs["price"] = order.price
                     currentOrderExecutionLogs["quantity"] = order.remainingOrderQuantity
                     unfilledOrderExecutionLogs.add(currentOrderExecutionLogs)
                     currentOrderDetails["unfilled"] = unfilledOrderExecutionLogs
-                } else if (order.orderStatus == "Filled") {
+                } else if (order.status == "Filled") {
                     val filledOrderExecutionLogs = ArrayList<Map<String, Any>>()
                     order.orderExecutionLogs.forEach {
                         val currentOrderExecutionLogs = mutableMapOf<String, Any>()

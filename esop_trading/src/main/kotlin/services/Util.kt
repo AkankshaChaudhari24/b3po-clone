@@ -64,7 +64,7 @@ class Util {
 
                 //Sell list is sorted to have best deals come first.
                 //If the top of the heap is not good enough, no point searching further
-                if (currentSellOrder.orderPrice > buyOrder.orderPrice) break
+                if (currentSellOrder.price > buyOrder.price) break
                 processOrder(buyOrder, currentSellOrder, false)
                 if (currentSellOrder.remainingOrderQuantity > 0)
                     sellOrders.add(currentSellOrder)
@@ -72,8 +72,8 @@ class Util {
         }
 
         private fun processOrder(buyOrder: Order, sellOrder: Order, isPerformanceESOP: Boolean) {
-            if (sellOrder.orderPrice <= buyOrder.orderPrice) {
-                val orderExecutionPrice = sellOrder.orderPrice
+            if (sellOrder.price <= buyOrder.price) {
+                val orderExecutionPrice = sellOrder.price
                 val orderQuantity = findOrderQuantity(buyOrder, sellOrder)
                 val orderAmount = orderQuantity * orderExecutionPrice
 
@@ -112,9 +112,9 @@ class Util {
             buyer.addEsopToInventory(orderQuantity)
 
             //Need to send difference back to free wallet when high buy and low sell are paired
-            if (buyOrder.orderPrice > orderExecutionPrice) {
+            if (buyOrder.price > orderExecutionPrice) {
                 val amountToBeMovedFromLockedWalletToFreeWallet =
-                    orderQuantity * (buyOrder.orderPrice - orderExecutionPrice)
+                    orderQuantity * (buyOrder.price - orderExecutionPrice)
                 buyer.updateLockedMoney(amountToBeMovedFromLockedWalletToFreeWallet)
                 buyer.addMoneyToWallet(amountToBeMovedFromLockedWalletToFreeWallet)
             }

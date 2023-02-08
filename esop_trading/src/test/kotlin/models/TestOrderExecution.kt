@@ -71,12 +71,12 @@ class TestOrderExecution {
         seller.addOrderToExecutionQueue(1,"SELL", 5)
         buyer.addOrderToExecutionQueue(1, "BUY", 10)
 
-        assertEquals("Unfilled", seller.orders[0].orderStatus)
-        assertEquals(10, seller.orders[0].orderPrice)
-        assertEquals("Filled", seller.orders[1].orderStatus)
-        assertEquals(5, seller.orders[1].orderPrice)
-        assertEquals("Filled", buyer.orders[0].orderStatus)
-        assertEquals(10, buyer.orders[0].orderPrice)
+        assertEquals("Unfilled", seller.orders[0].status)
+        assertEquals(10, seller.orders[0].price)
+        assertEquals("Filled", seller.orders[1].status)
+        assertEquals(5, seller.orders[1].price)
+        assertEquals("Filled", buyer.orders[0].status)
+        assertEquals(10, buyer.orders[0].price)
         assertEquals(10000-5, buyer.getFreeMoney())
     }
 
@@ -89,12 +89,12 @@ class TestOrderExecution {
         buyer.addOrderToExecutionQueue(1,"BUY",10)
         seller.addOrderToExecutionQueue(1, "SELL", 5)
 
-        assertEquals("Unfilled", buyer.orders[0].orderStatus)
-        assertEquals(5, buyer.orders[0].orderPrice)
-        assertEquals("Filled", buyer.orders[1].orderStatus)
-        assertEquals(10, buyer.orders[1].orderPrice)
-        assertEquals("Filled", seller.orders[0].orderStatus)
-        assertEquals(5, seller.orders[0].orderPrice)
+        assertEquals("Unfilled", buyer.orders[0].status)
+        assertEquals(5, buyer.orders[0].price)
+        assertEquals("Filled", buyer.orders[1].status)
+        assertEquals(10, buyer.orders[1].price)
+        assertEquals("Filled", seller.orders[0].status)
+        assertEquals(5, seller.orders[0].price)
     }
 
     @Test
@@ -106,12 +106,12 @@ class TestOrderExecution {
         seller.addOrderToExecutionQueue(1, "SELL", 10, "PERFORMANCE")
         buyer.addOrderToExecutionQueue(1,"BUY", 10)
 
-        assertEquals("Unfilled", seller.orders[0].orderStatus)
-        assertEquals(5, seller.orders[0].orderPrice)
-        assertEquals("Filled", seller.orders[1].orderStatus)
-        assertEquals(10, seller.orders[1].orderPrice)
-        assertEquals("Filled", buyer.orders[0].orderStatus)
-        assertEquals(10, buyer.orders[0].orderPrice)
+        assertEquals("Unfilled", seller.orders[0].status)
+        assertEquals(5, seller.orders[0].price)
+        assertEquals("Filled", seller.orders[1].status)
+        assertEquals(10, seller.orders[1].price)
+        assertEquals("Filled", buyer.orders[0].status)
+        assertEquals(10, buyer.orders[0].price)
         assertEquals(10000-10, buyer.getFreeMoney())
     }
 
@@ -140,11 +140,11 @@ class TestOrderExecution {
 
         assertEquals(10000-10, buyer.getFreeMoney())
         assertEquals(0,buyer.getLockedMoney())
-        assertEquals("Filled", seller.orders[0].orderStatus)
-        assertEquals(10, seller.orders[0].orderPrice)
-        assertEquals("Unfilled", seller.orders[1].orderStatus)
-        assertEquals(5, seller.orders[1].orderPrice)
-        assertEquals("Filled", buyer.orders[0].orderStatus)
-        assertEquals(10, buyer.orders[0].orderPrice)
+        assertEquals("Filled", seller.orders[0].status)
+        assertEquals(10, seller.orders[0].price)
+        assertEquals("Unfilled", seller.orders[1].status)
+        assertEquals(5, seller.orders[1].price)
+        assertEquals("Filled", buyer.orders[0].status)
+        assertEquals(10, buyer.orders[0].price)
     }
 }
