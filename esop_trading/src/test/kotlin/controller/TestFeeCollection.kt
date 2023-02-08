@@ -14,6 +14,8 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import repositories.OrderRepository
+import repositories.UserRepository
+import services.OrderServices
 import services.saveUser
 import java.math.BigInteger
 
@@ -32,18 +34,18 @@ class TestFeeCollection {
         val seller = User("amy", "Amy", "Santiago", "9472919384", "amy@gmail.com") //Seller
         seller.addEsopToInventory(100, "NON-PERFORMANCE")
         seller.addEsopToInventory(100, "PERFORMANCE")
+        saveUser(buyer)
+        saveUser(seller)
         order1 = Order(userName = buyer.username, quantity = 1, price = 100, type = "BUY")
         order2 = Order(userName = seller.username, quantity = 1, price = 100, type = "SELL")
 
-        saveUser(buyer)
-        saveUser(seller)
     }
 
     @AfterEach
     fun tearDown() {
-        DataStorage.userList.clear()
-        DataStorage.registeredEmails.clear()
-        DataStorage.registeredPhoneNumbers.clear()
+        UserRepository.clearUserList()
+        UserRepository.clearEmailList()
+        UserRepository.clearPhoneNumberList()
         OrderRepository.clearBuyList()
         OrderRepository.clearSellList()
         OrderRepository.clearPerformanceSellList()
@@ -65,6 +67,7 @@ class TestFeeCollection {
     fun `total fee should be 2 percent of total transaction`() {
         order1.addOrder()
         order2.addOrder()
+        OrderServices.matchOrders()
         val request = HttpRequest.GET<FeeResponse>("/fees")
 
         val response = client.toBlocking().retrieve(request, FeeResponse::class.java)
@@ -76,6 +79,7 @@ class TestFeeCollection {
     fun `total fee should be rounded and not floored`() {
         order1.addOrder()
         order2.addOrder()
+        OrderServices.matchOrders()
         val request = HttpRequest.GET<FeeResponse>("/fees")
 
         val response = client.toBlocking().retrieve(request, FeeResponse::class.java)
