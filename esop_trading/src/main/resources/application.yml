@@ -1,0 +1,7 @@
+micronaut:
+  application:
+    name: esop_trading
+netty:
+  default:
+    allocator:
+      max-order: 3
