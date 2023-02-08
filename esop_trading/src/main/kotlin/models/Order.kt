@@ -1,13 +1,15 @@
 package models
 
 import exception.ValidationException
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import repositories.OrderRepository
 import repositories.UserRepository
 import java.lang.Long.min
 import kotlin.math.roundToLong
 
 class Order(
-    private val userName: String,
+    val userName: String,
     val orderId: Long = 0,
     val quantity: Long,
     val price: Long,
@@ -15,10 +17,10 @@ class Order(
     var status: String = "Unfilled",
     var esopType: String? = "NON-PERFORMANCE"
 ) {
-
+    val logger: Logger = LoggerFactory.getLogger(Order::class.java)
     val orderExecutionLogs: ArrayList<OrderExecutionLogs> = ArrayList()
     var remainingOrderQuantity: Long = quantity
-    val user: User = UserRepository.getUser(userName)!!
+
 
     fun findMinOrderQuantity(order: Order): Long {
         return min(order.remainingOrderQuantity, remainingOrderQuantity)
@@ -33,7 +35,23 @@ class Order(
         }
     }
 
+    fun addOrderExecutionLogs(orderExecuted: OrderExecutionLogs) {
+        if (orderExecuted.orderExecutionQuantity == this.remainingOrderQuantity) {
+            this.status = "Filled"
+        }
+        if (orderExecuted.orderExecutionQuantity < this.remainingOrderQuantity) {
+            this.status = "Partially Filled"
+        }
+        this.remainingOrderQuantity = this.remainingOrderQuantity - orderExecuted.orderExecutionQuantity
+        orderExecutionLogs.add(orderExecuted)
+    }
+
+
     private fun addBuyOrder() {
+        val user: User = UserRepository.getUser(userName)!!
+        logger.info("User free inventory - {}", user.getFreeInventory())
+        logger.info("User free wallet - {}", user.getFreeMoney())
+        logger.info("User list size - {}", UserRepository.getUserListSize())
         throwExceptionIfInvalidBuyOrder(quantity, price)
         user.moveFreeMoneyToLockedMoney(quantity * price)
         val newOrder = Order(userName, OrderRepository.generateOrderId(), quantity, price, "BUY")
@@ -44,8 +62,15 @@ class Order(
     private fun throwExceptionIfInvalidBuyOrder(orderQuantity: Long, orderPrice: Long) {
         val errorList = ArrayList<String>()
         val transactionAmount = orderQuantity * orderPrice
-
-        if (user.getFreeInventory() + user.getLockedInventory() + orderQuantity > DataStorage.MAX_QUANTITY)
+        val user: User = UserRepository.getUser(userName)!!
+        logger.info(
+            "user.getFreeInventory() - {} user.getLockedInventory() - {} orderQuantity - {} >=  DataStorage.MAX_QUANTITY - {}",
+            user.getFreeInventory(),
+            user.getLockedInventory(),
+            orderQuantity,
+            DataStorage.MAX_QUANTITY
+        )
+        if (user.getFreeInventory() + user.getLockedInventory() + orderQuantity >= DataStorage.MAX_QUANTITY)
             errorList.add("Inventory threshold will be exceeded")
         if (user.getFreeMoney() < transactionAmount)
             errorList.add("Insufficient balance in wallet")
@@ -63,6 +88,7 @@ class Order(
 
     private fun addPerformanceSellOrder() {
         throwExceptionIfInvalidPerformanceEsopSellOrder()
+        val user: User = UserRepository.getUser(userName)!!
         user.moveFreePerformanceInventoryToLockedPerformanceInventory(quantity)
         val newOrder = Order(userName, OrderRepository.generateOrderId(), quantity, price, "SELL")
         user.addOrderHistory(newOrder)
@@ -71,6 +97,7 @@ class Order(
 
     private fun addNonPerformanceSellOrder() {
         throwExceptionIfInvalidNonPerformanceEsopSellOrder()
+        val user: User = UserRepository.getUser(userName)!!
         user.moveFreeInventoryToLockedInventory(quantity)
         val newOrder = Order(userName, OrderRepository.generateOrderId(), quantity, price, "SELL")
         user.addOrderHistory(newOrder)
@@ -79,6 +106,7 @@ class Order(
 
     private fun throwExceptionIfInvalidNonPerformanceEsopSellOrder() {
         val errorList = ArrayList<String>()
+        val user: User = UserRepository.getUser(userName)!!
         val transactionAmount = price * quantity
         val transactionAmountFeeDeducted =
             (transactionAmount * (1 - DataStorage.COMMISSION_FEE_PERCENTAGE * 0.01)).roundToLong()
@@ -94,6 +122,7 @@ class Order(
     private fun throwExceptionIfInvalidPerformanceEsopSellOrder() {
         val errorList = ArrayList<String>()
         val transactionAmount = price * quantity
+        val user: User = UserRepository.getUser(userName)!!
 
         if (user.getFreePerformanceInventory() < quantity)
             errorList.add("Insufficient performance ESOPs in inventory")
