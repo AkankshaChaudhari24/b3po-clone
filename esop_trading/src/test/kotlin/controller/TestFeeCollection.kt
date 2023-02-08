@@ -7,11 +7,13 @@ import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import jakarta.inject.Inject
 import models.DataStorage
 import models.FeeResponse
+import models.Order
 import models.User
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import repositories.OrderRepository
 import services.saveUser
 import java.math.BigInteger
 
@@ -20,6 +22,9 @@ class TestFeeCollection {
     @Inject
     @field:Client("/")
     lateinit var client: HttpClient
+    lateinit var order1: Order
+    lateinit var order2: Order
+
     @BeforeEach
     fun setUp() {
         val buyer = User("jake", "Jake", "Peralta", "9844427549", "jake@gmail.com") //Buyer
@@ -27,6 +32,9 @@ class TestFeeCollection {
         val seller = User("amy", "Amy", "Santiago", "9472919384", "amy@gmail.com") //Seller
         seller.addEsopToInventory(100, "NON-PERFORMANCE")
         seller.addEsopToInventory(100, "PERFORMANCE")
+        order1 = Order(userName = buyer.username, quantity = 1, price = 100, type = "BUY")
+        order2 = Order(userName = seller.username, quantity = 1, price = 100, type = "SELL")
+
         saveUser(buyer)
         saveUser(seller)
     }
@@ -36,11 +44,11 @@ class TestFeeCollection {
         DataStorage.userList.clear()
         DataStorage.registeredEmails.clear()
         DataStorage.registeredPhoneNumbers.clear()
-        DataStorage.buyList.clear()
-        DataStorage.sellList.clear()
-        DataStorage.performanceSellList.clear()
-        DataStorage.orderId = 1L
-        DataStorage.orderExecutionId = 1L
+        OrderRepository.clearBuyList()
+        OrderRepository.clearSellList()
+        OrderRepository.clearPerformanceSellList()
+        OrderRepository.setOrderId(1L)
+        OrderRepository.setOrderExecutionId(1L)
         DataStorage.TOTAL_FEE_COLLECTED = BigInteger.valueOf(0)
     }
 
@@ -55,8 +63,8 @@ class TestFeeCollection {
 
     @Test
     fun `total fee should be 2 percent of total transaction`() {
-        DataStorage.userList["jake"]!!.addOrderToExecutionQueue(1,"BUY", 100)
-        DataStorage.userList["amy"]!!.addOrderToExecutionQueue(1,"SELL",100)
+        order1.addOrder()
+        order2.addOrder()
         val request = HttpRequest.GET<FeeResponse>("/fees")
 
         val response = client.toBlocking().retrieve(request, FeeResponse::class.java)
@@ -66,8 +74,8 @@ class TestFeeCollection {
 
     @Test
     fun `total fee should be rounded and not floored`() {
-        DataStorage.userList["jake"]!!.addOrderToExecutionQueue(1,"BUY", 30)
-        DataStorage.userList["amy"]!!.addOrderToExecutionQueue(1,"SELL",30)
+        order1.addOrder()
+        order2.addOrder()
         val request = HttpRequest.GET<FeeResponse>("/fees")
 
         val response = client.toBlocking().retrieve(request, FeeResponse::class.java)

@@ -15,6 +15,7 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import repositories.OrderRepository
 import services.saveUser
 
 
@@ -44,11 +45,11 @@ class UserControllerTest {
         DataStorage.userList.clear()
         DataStorage.registeredEmails.clear()
         DataStorage.registeredPhoneNumbers.clear()
-        DataStorage.buyList.clear()
-        DataStorage.sellList.clear()
-        DataStorage.performanceSellList.clear()
-        DataStorage.orderId = 1L
-        DataStorage.orderExecutionId = 1L
+        OrderRepository.clearBuyList()
+        OrderRepository.clearSellList()
+        OrderRepository.clearPerformanceSellList()
+        OrderRepository.setOrderId(1L)
+        OrderRepository.setOrderExecutionId(1L)
     }
 
     @Test

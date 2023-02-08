@@ -4,7 +4,7 @@ import java.time.Instant
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
-class OrderExecutionLogs(
+class OrderExecutionLogs    (
     val orderExecutionId: Long,
     val orderExecutionPrice: Long,
     val orderExecutionQuantity: Long
