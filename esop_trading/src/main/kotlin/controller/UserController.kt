@@ -5,12 +5,16 @@ import exception.ValidationException
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.HttpStatus
 import io.micronaut.http.annotation.*
+import jakarta.inject.Inject
 import models.*
+import repositories.OrderRepository
+import repositories.UserRepository
+import services.OrderServices.Companion.matchOrders
 import services.Validations
 import services.saveUser
 
 @Controller("/user")
-class UserController {
+class UserController(@Inject private val orderRepository: OrderRepository) {
     @Post("/register")
     fun register(@Body body: RegisterInput): HttpResponse<RegisterResponse> {
         val errorList = arrayListOf<String>()
@@ -73,8 +77,8 @@ class UserController {
             return HttpResponse.badRequest(response)
         }
 
-        val freeMoney = DataStorage.userList[userName]!!.getFreeMoney()
-        val lockedMoney = DataStorage.userList[userName]!!.getLockedMoney()
+        val freeMoney = UserRepository.getUser(userName)!!.getFreeMoney()
+        val lockedMoney = UserRepository.getUser(userName)!!.getLockedMoney()
 
         if (((amountToBeAdded + freeMoney + lockedMoney) <= 0) ||
             ((amountToBeAdded + freeMoney + lockedMoney) > DataStorage.MAX_AMOUNT)
@@ -85,7 +89,7 @@ class UserController {
             response = mapOf("error" to errorMessages)
             return HttpResponse.status<Any>(HttpStatus.BAD_REQUEST).body(response)
         }
-        DataStorage.userList[userName]!!.addMoneyToWallet(amountToBeAdded)
+        UserRepository.getUser(userName)!!.addMoneyToWallet(amountToBeAdded)
 
         response = mapOf("message" to "$amountToBeAdded amount added to account")
         return HttpResponse.status<Any>(HttpStatus.OK).body(response)
@@ -114,8 +118,8 @@ class UserController {
             return HttpResponse.status<Any>(HttpStatus.OK).body(response)
         } else if (quantityToBeAdded != null) {
             if (typeOfESOP == "NON-PERFORMANCE") {
-                val freeInventory = DataStorage.userList[userName]!!.getFreeInventory()
-                val lockedInventory = DataStorage.userList[userName]!!.getLockedInventory()
+                val freeInventory = UserRepository.getUser(userName)!!.getFreeInventory()
+                val lockedInventory = UserRepository.getUser(userName)!!.getLockedInventory()
                 val totalQuantity = freeInventory + lockedInventory + quantityToBeAdded
 
 
@@ -125,9 +129,9 @@ class UserController {
 
             } else if (typeOfESOP == "PERFORMANCE") {
                 val freePerformanceInventory =
-                    DataStorage.userList[userName]!!.getFreePerformanceInventory()
+                    UserRepository.getUser(userName)!!.getFreePerformanceInventory()
                 val lockedPerformanceInventory =
-                    DataStorage.userList[userName]!!.getFreePerformanceInventory()
+                    UserRepository.getUser(userName)!!.getFreePerformanceInventory()
                 val totalQuantity = freePerformanceInventory + lockedPerformanceInventory + quantityToBeAdded
 
 
@@ -140,7 +144,7 @@ class UserController {
                 response = mapOf("error" to errorMessages)
                 return HttpResponse.badRequest(response)
             }
-            DataStorage.userList[userName]!!.addEsopToInventory(quantityToBeAdded, typeOfESOP)
+            UserRepository.getUser(userName)!!.addEsopToInventory(quantityToBeAdded, typeOfESOP)
         }
         if (errorMessages.size > 0) {
             response = mapOf("error" to errorMessages)
@@ -164,24 +168,24 @@ class UserController {
         }
 
         response = mapOf(
-            "FirstName" to DataStorage.userList[userName]!!.firstName,
-            "LastName" to DataStorage.userList[userName]!!.lastName,
-            "Phone" to DataStorage.userList[userName]!!.phoneNumber,
-            "EmailID" to DataStorage.userList[userName]!!.emailId,
+            "FirstName" to UserRepository.getUser(userName)!!.firstName,
+            "LastName" to UserRepository.getUser(userName)!!.lastName,
+            "Phone" to UserRepository.getUser(userName)!!.phoneNumber,
+            "EmailID" to UserRepository.getUser(userName)!!.emailId,
             "Wallet" to mapOf(
-                "free" to DataStorage.userList[userName]!!.getFreeMoney(),
-                "locked" to DataStorage.userList[userName]!!.getLockedMoney()
+                "free" to UserRepository.getUser(userName)!!.getFreeMoney(),
+                "locked" to UserRepository.getUser(userName)!!.getLockedMoney()
             ),
             "Inventory" to arrayListOf<Any>(
                 mapOf(
                     "esop_type" to "PERFORMANCE",
-                    "free" to DataStorage.userList[userName]!!.getFreePerformanceInventory(),
-                    "locked" to DataStorage.userList[userName]!!.getLockedPerformanceInventory()
+                    "free" to UserRepository.getUser(userName)!!.getFreePerformanceInventory(),
+                    "locked" to UserRepository.getUser(userName)!!.getLockedPerformanceInventory()
                 ),
                 mapOf(
                     "esop_type" to "NON-PERFORMANCE",
-                    "free" to DataStorage.userList[userName]!!.getFreeInventory(),
-                    "locked" to DataStorage.userList[userName]!!.getLockedInventory()
+                    "free" to UserRepository.getUser(userName)!!.getFreeInventory(),
+                    "locked" to UserRepository.getUser(userName)!!.getLockedInventory()
                 )
             )
         )
@@ -214,16 +218,18 @@ class UserController {
         val orderQuantity: Long? = body.quantity?.toLong()
         val orderType: String? = body.orderType?.trim()?.uppercase()
         val orderPrice: Long? = body.price?.toLong()
-        val typeOfESOP: String = (body.esopType ?: "NON-PERFORMANCE").trim().uppercase()
+        val esopType: String = (body.esopType ?: "NON-PERFORMANCE").trim().uppercase()
 
         if (orderType !in arrayOf("BUY", "SELL"))
             errorMessages.add("Invalid order type.")
-        if (typeOfESOP !in arrayOf("PERFORMANCE", "NON-PERFORMANCE"))
+        if (esopType !in arrayOf("PERFORMANCE", "NON-PERFORMANCE"))
             errorMessages.add("Invalid type of ESOP, ESOP type should be PERFORMANCE or NON-PERFORMANCE.")
 
         if (errorMessages.isEmpty() && orderPrice != null && orderType != null && orderQuantity != null) {
             //Create Order
-            DataStorage.userList[userName]!!.addOrderToExecutionQueue(orderQuantity, orderType, orderPrice, typeOfESOP)
+            val order = Order(userName = userName, quantity = orderQuantity, type = orderType, price = orderPrice, esopType = esopType )
+            order.addOrder()
+            matchOrders()
 
             val res = mutableMapOf<String, Any>()
             res["quantity"] = orderQuantity
@@ -254,7 +260,7 @@ class UserController {
             response = mapOf("error" to errorMessages)
             return HttpResponse.status<Any>(HttpStatus.UNAUTHORIZED).body(response)
         }
-        response = DataStorage.userList[userName]!!.getOrderDetails()
+        response = UserRepository.getUser(userName)!!.getOrderDetails()
         return HttpResponse.status<Any>(HttpStatus.OK).body(response)
     }
 }

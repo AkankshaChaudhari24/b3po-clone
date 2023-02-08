@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import repositories.OrderRepository
+import repositories.UserRepository
 import services.saveUser
 
 
@@ -42,9 +43,9 @@ class UserControllerTest {
 
     @AfterEach
     fun tearDown() {
-        DataStorage.userList.clear()
-        DataStorage.registeredEmails.clear()
-        DataStorage.registeredPhoneNumbers.clear()
+        UserRepository.clearUserList()
+        UserRepository.clearPhoneNumberList()
+        UserRepository.clearEmailList()
         OrderRepository.clearBuyList()
         OrderRepository.clearSellList()
         OrderRepository.clearPerformanceSellList()
@@ -98,7 +99,7 @@ class UserControllerTest {
         saveUser(user1)
         saveUser(user2)
         saveUser(user3)
-        assertEquals(3, DataStorage.userList.size)
+        assertEquals(3,UserRepository.getUserListSize())
 
     }
 }
