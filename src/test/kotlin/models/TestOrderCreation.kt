@@ -61,7 +61,7 @@ class TestOrderCreation {
 
         user.addMoneyToWallet(100)
 
-        buyOrderOne.addOrder()
+        OrderRepository.addOrder(buyOrderOne)
 
         assertEquals(1, user.orders.size)
     }
@@ -71,7 +71,7 @@ class TestOrderCreation {
 
 
         val exception = assertThrows(ValidationException::class.java) {
-            buyOrderOne.addOrder()
+            OrderRepository.addOrder(buyOrderOne)
         }
         val errors = exception.errorResponse.error
 
@@ -85,7 +85,7 @@ class TestOrderCreation {
 
         user.addMoneyToWallet(100)
 
-        buyOrderOne.addOrder()
+        OrderRepository.addOrder(buyOrderOne)
 
         assertEquals(0, user.getFreeMoney())
         assertEquals(100, user.getLockedMoney())
@@ -96,7 +96,7 @@ class TestOrderCreation {
 
         user.addMoneyToWallet(100)
 
-        buyOrderOne.addOrder()
+        OrderRepository.addOrder(buyOrderOne)
 
         assertEquals("Unfilled", OrderRepository.getBuyList().peek().status)
         assertEquals(1, OrderRepository.getBuyList().peek().quantity)
@@ -110,7 +110,7 @@ class TestOrderCreation {
 
         user.addMoneyToWallet(100)
 
-        buyOrderOne.addOrder()
+        OrderRepository.addOrder(buyOrderOne)
 
         assertEquals(1, OrderRepository.getBuyList().size)
         assertEquals(user.orders[0], OrderRepository.getBuyList().peek())
@@ -120,14 +120,14 @@ class TestOrderCreation {
     fun `can create sell order if user has enough esops`() {
         user.addEsopToInventory(1)
 
-        sellOrderOne.addOrder()
+        OrderRepository.addOrder(sellOrderOne)
         assertEquals(1, user.orders.size)
     }
 
     @Test
     fun `cannot create sell order if user doesn't have enough esops in inventory`() {
 
-        val exception = assertThrows(ValidationException::class.java) { sellOrderOne.addOrder() }
+        val exception = assertThrows(ValidationException::class.java) { OrderRepository.addOrder(sellOrderOne) }
         val errors = exception.errorResponse.error
 
         assertEquals("Insufficient non-performance ESOPs in inventory", errors[0])
@@ -139,7 +139,7 @@ class TestOrderCreation {
     fun `creating sell order locks esops`() {
         user.addEsopToInventory(1)
 
-        sellOrderOne.addOrder()
+        OrderRepository.addOrder(sellOrderOne)
         assertEquals(0, user.getFreeInventory())
         assertEquals(1, user.getLockedInventory())
     }
@@ -148,7 +148,7 @@ class TestOrderCreation {
     fun `correct sell order is created`() {
         user.addEsopToInventory(1)
 
-        sellOrderOne.addOrder()
+        OrderRepository.addOrder(sellOrderOne)
         assertEquals("Unfilled", OrderRepository.getSellList().peek().status)
         assertEquals(1, OrderRepository.getSellList().peek().quantity)
         assertEquals("SELL", OrderRepository.getSellList().peek().type)
@@ -160,7 +160,7 @@ class TestOrderCreation {
     fun `creating sell order adds order to global sell list`() {
         user.addEsopToInventory(1)
 
-        sellOrderOne.addOrder()
+        OrderRepository.addOrder(sellOrderOne)
 
         assertEquals(1, OrderRepository.getSellList().size)
         assertEquals(user.orders[0], OrderRepository.getSellList().peek())
@@ -170,7 +170,7 @@ class TestOrderCreation {
     fun `can create performance sell order if user has enough performance esops`() {
         user.addEsopToInventory(1, "PERFORMANCE")
 
-        performanceOrderOne.addOrder()
+        OrderRepository.addOrder(performanceOrderOne)
         assertEquals(1, user.orders.size)
     }
 
@@ -178,7 +178,7 @@ class TestOrderCreation {
     fun `cannot create performance sell order if user doesn't have enough performance esops in inventory`() {
 
         val exception = assertThrows(ValidationException::class.java) {
-            performanceOrderOne.addOrder()
+            OrderRepository.addOrder(performanceOrderOne)
         }
         val errors = exception.errorResponse.error
 
@@ -191,7 +191,7 @@ class TestOrderCreation {
     fun `creating performance sell order locks esops`() {
         user.addEsopToInventory(1, "PERFORMANCE")
 
-        performanceOrderOne.addOrder()
+        OrderRepository.addOrder(performanceOrderOne)
         assertEquals(0, user.getFreePerformanceInventory())
         assertEquals(1, user.getLockedPerformanceInventory())
     }
@@ -200,7 +200,7 @@ class TestOrderCreation {
     fun `correct performance sell order is created`() {
         user.addEsopToInventory(1, "PERFORMANCE")
 
-        performanceOrderOne.addOrder()
+        OrderRepository.addOrder(performanceOrderOne)
         assertEquals("Unfilled", OrderRepository.getPerformanceSellList().peek().status)
         assertEquals(1, OrderRepository.getPerformanceSellList().peek().quantity)
         assertEquals("SELL", OrderRepository.getPerformanceSellList().peek().type)
@@ -212,7 +212,7 @@ class TestOrderCreation {
     fun `creating performance sell order adds order to global performance sell list`() {
         user.addEsopToInventory(1, "PERFORMANCE")
 
-        performanceOrderOne.addOrder()
+        OrderRepository.addOrder(performanceOrderOne)
         assertEquals(1, OrderRepository.getPerformanceSellList().size)
         assertEquals(user.orders[0], OrderRepository.getPerformanceSellList().peek())
     }
@@ -228,7 +228,7 @@ class TestOrderCreation {
     @Test
     fun `order details for unfilled order is set correctly`() {
         user.addMoneyToWallet(100)
-        buyOrderOne.addOrder()
+        OrderRepository.addOrder(buyOrderOne)
         val orderDetails = user.getOrderDetails()
 
         assertEquals(1, orderDetails.size)
@@ -261,8 +261,9 @@ class TestOrderCreation {
         seller.addEsopToInventory(1)
         buyOrderTwo = Order(userName = buyer.username, quantity = 2, price = 100, type = "BUY")
         sellOrderOne = Order(userName = seller.username, quantity = 1, price = 100, type = "SELL")
-        buyOrderTwo.addOrder()
-        sellOrderOne.addOrder()
+        
+        OrderRepository.addOrder(buyOrderTwo)
+        OrderRepository.addOrder(sellOrderOne)
         OrderServices.matchOrders()
         val orderDetails = buyer.getOrderDetails()
 
@@ -299,8 +300,8 @@ class TestOrderCreation {
         buyOrderTwo = Order(userName = "user1", quantity = 2, price = 100, type = "BUY")
         sellOrderOne = Order(userName = "user2", quantity = 1, price = 15, type = "SELL")
 
-        buyOrderTwo.addOrder()
-        sellOrderOne.addOrder()
+        OrderRepository.addOrder(buyOrderTwo)
+        OrderRepository.addOrder(sellOrderOne)
         OrderServices.matchOrders()
         val orderDetails = seller.getOrderDetails()
 
@@ -325,7 +326,7 @@ class TestOrderCreation {
             remainingQuantity:1
 
         """.trimIndent()
-        performanceOrderTwo.addOrder()
+        OrderRepository.addOrder(performanceOrderTwo)
         assertEquals(expected, user.orders[0].toString())
     }
 
@@ -334,7 +335,7 @@ class TestOrderCreation {
         user.addMoneyToWallet(DataStorage.MAX_AMOUNT - 10L)
         user.addEsopToInventory(1)
 
-        val exception = assertThrows(ValidationException::class.java) { sellOrderTwo.addOrder() }
+        val exception = assertThrows(ValidationException::class.java) { OrderRepository.addOrder(sellOrderTwo) }
         val errors = exception.errorResponse.error
 
         assertEquals(1, errors.size)
@@ -349,7 +350,7 @@ class TestOrderCreation {
         logger.info("User free wallet - {}. User inventory free - {}", user.getFreeMoney(), user.getFreeInventory())
         logger.info("User list size - {}", UserRepository.getUserListSize())
 
-        val exception = assertThrows(ValidationException::class.java) { buyOrderThree.addOrder() }
+        val exception = assertThrows(ValidationException::class.java) { OrderRepository.addOrder(buyOrderThree) }
         val errors = exception.errorResponse.error
 
         assertEquals(1, errors.size)

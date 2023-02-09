@@ -1,6 +1,8 @@
 package repositories
 
+import exception.OrderExceptions
 import models.Order
+import models.User
 import services.BuyOrderingComparator
 import services.SellOrderingComparator
 import java.util.*
@@ -54,6 +56,47 @@ open class OrderRepository {
             performanceSellList.add(order)
         }
 
+        fun addOrder(order: Order) {
+            if (order.type == "BUY") {
+                addBuyOrder(order)
+            } else if (order.type == "SELL") {
+                addSellOrder(order)
+            }
+        }
+
+
+        private fun addBuyOrder(order: Order) {
+            val user: User = UserRepository.getUser(order.userName)!!
+            OrderExceptions().throwExceptionIfInvalidBuyOrder(order)
+            user.moveFreeMoneyToLockedMoney(order.quantity * order.price)
+            val newOrder = Order(order.userName, generateOrderId(), order.quantity, order.price, "BUY")
+            UserRepository.getUser(order.userName)?.addOrderHistory(newOrder)
+            addOrderToBuyList(newOrder)
+        }
+
+
+        private fun addSellOrder(order: Order) {
+            if (order.esopType == "PERFORMANCE") addPerformanceSellOrder(order)
+            else if (order.esopType == "NON-PERFORMANCE") addNonPerformanceSellOrder(order)
+        }
+
+        private fun addPerformanceSellOrder(order: Order) {
+            OrderExceptions().throwExceptionIfInvalidPerformanceEsopSellOrder(order)
+            val user: User = UserRepository.getUser(order.userName)!!
+            user.moveFreePerformanceInventoryToLockedPerformanceInventory(order.quantity)
+            val newOrder = Order(order.userName, generateOrderId(), order.quantity, order.price, "SELL")
+            user.addOrderHistory(newOrder)
+            addOrderToPerformanceSellList(newOrder)
+        }
+
+        private fun addNonPerformanceSellOrder(order: Order) {
+            OrderExceptions().throwExceptionIfInvalidNonPerformanceEsopSellOrder(order)
+            val user: User = UserRepository.getUser(order.userName)!!
+            user.moveFreeInventoryToLockedInventory(order.quantity)
+            val newOrder = Order(order.userName, generateOrderId(), order.quantity, order.price, "SELL")
+            user.addOrderHistory(newOrder)
+            addOrderToSellList(newOrder)
+        }
 
     }
 }

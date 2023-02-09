@@ -5,19 +5,16 @@ import exception.ValidationException
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.HttpStatus
 import io.micronaut.http.annotation.*
-import jakarta.inject.Inject
 import models.*
-import repositories.OrderRepository
 import repositories.UserRepository
-import services.OrderServices.Companion.matchOrders
-import services.Validations
+import validations.Validations
 import services.saveUser
 
 @Controller("/user")
-class UserController(@Inject private val orderRepository: OrderRepository) {
+class UserController {
     @Post("/register")
     fun register(@Body body: RegisterInput): HttpResponse<RegisterResponse> {
-        val errorList = arrayListOf<String>()
+        val errorList = Validations.validateRegisterInput(body)
 
         val firstName: String? = body.firstName?.trim()
         val lastName: String? = body.lastName?.trim()
@@ -25,11 +22,6 @@ class UserController(@Inject private val orderRepository: OrderRepository) {
         val emailID: String? = body.emailID?.trim()
         val userName: String? = body.userName?.trim()
 
-        for (error in Validations.validateFirstName(firstName)) errorList.add(error)
-        for (error in Validations.validateLastName(lastName)) errorList.add(error)
-        for (error in Validations.validatePhoneNumber(phoneNumber)) errorList.add(error)
-        for (error in Validations.validateEmailIds(emailID)) errorList.add(error)
-        for (error in Validations.validateUserName(userName)) errorList.add(error)
 
         if (errorList.isEmpty()) {
             if (userName != null && firstName != null && lastName != null && phoneNumber != null && emailID != null) {
@@ -190,57 +182,6 @@ class UserController(@Inject private val orderRepository: OrderRepository) {
             )
         )
         return HttpResponse.status<Any>(HttpStatus.OK).body(response)
-    }
-
-    @Post("/{userName}/createOrder")
-    fun createOrder(userName: String, @Body body: CreateOrderInput): HttpResponse<*> {
-        val errorMessages: ArrayList<String> = ArrayList()
-
-        val response: Map<String, *>
-
-        if (!Validations.validateUser(userName))
-            errorMessages.add("userName does not exists.")
-        if (body.orderType.isNullOrBlank())
-            errorMessages.add("orderType is missing, orderType should be BUY or SELL.")
-        if (body.price == null)
-            errorMessages.add("price for the order is missing.")
-        if (body.quantity == null)
-            errorMessages.add("quantity field for order is missing.")
-        if (body.orderType != null && body.orderType == "SELL" && body.esopType.isNullOrBlank()) {
-            errorMessages.add("esopType is missing, SELL order requires esopType.")
-        }
-        if (errorMessages.isNotEmpty()) {
-            response = mapOf("error" to errorMessages)
-            return HttpResponse.status<Any>(HttpStatus.UNAUTHORIZED).body(response)
-        }
-
-        //Input Parsing
-        val orderQuantity: Long? = body.quantity?.toLong()
-        val orderType: String? = body.orderType?.trim()?.uppercase()
-        val orderPrice: Long? = body.price?.toLong()
-        val esopType: String = (body.esopType ?: "NON-PERFORMANCE").trim().uppercase()
-
-        if (orderType !in arrayOf("BUY", "SELL"))
-            errorMessages.add("Invalid order type.")
-        if (esopType !in arrayOf("PERFORMANCE", "NON-PERFORMANCE"))
-            errorMessages.add("Invalid type of ESOP, ESOP type should be PERFORMANCE or NON-PERFORMANCE.")
-
-        if (errorMessages.isEmpty() && orderPrice != null && orderType != null && orderQuantity != null) {
-            //Create Order
-            val order = Order(userName = userName, quantity = orderQuantity, type = orderType, price = orderPrice, esopType = esopType )
-            order.addOrder()
-            matchOrders()
-
-            val res = mutableMapOf<String, Any>()
-            res["quantity"] = orderQuantity
-            res["order_type"] = orderType
-            res["price"] = orderPrice
-
-            return HttpResponse.status<Any>(HttpStatus.OK).body(res)
-
-        }
-        val res = mapOf("error" to errorMessages)
-        return HttpResponse.status<Any>(HttpStatus.UNAUTHORIZED).body(res)
     }
 
     @Get("/{userName}/orderHistory")

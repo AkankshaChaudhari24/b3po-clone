@@ -1,7 +1,6 @@
-package services
+package validations
 
 import constants.PhoneNumber
-import models.DataStorage
 import models.RegisterInput
 import repositories.UserRepository
 

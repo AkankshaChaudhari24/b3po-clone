@@ -2,7 +2,7 @@ package services
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import services.Validations.Companion.validateLastName
+import validations.Validations.Companion.validateLastName
 
 class TestLastNameValidations {
     @Test

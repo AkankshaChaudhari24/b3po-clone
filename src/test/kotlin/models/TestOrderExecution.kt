@@ -68,10 +68,10 @@ class TestOrderExecution {
         val seller = UserRepository.getUser("amy")!!
         val expectedSellerWallet = (150 * (1 - DataStorage.COMMISSION_FEE_PERCENTAGE * 0.01)).roundToLong()
 
-        buyOrderOne.addOrder()
-        buyOrderOne.addOrder()
-        buyOrderOne.addOrder()
-        sellOrderOne.addOrder()
+        OrderRepository.addOrder(buyOrderOne)
+        OrderRepository.addOrder(buyOrderOne)
+        OrderRepository.addOrder(buyOrderOne)
+        OrderRepository.addOrder(sellOrderOne)
         OrderServices.matchOrders()
         assert(OrderRepository.getBuyList().isEmpty())
         assert(OrderRepository.getSellList().isEmpty())
@@ -87,8 +87,8 @@ class TestOrderExecution {
         val seller = UserRepository.getUser("amy")!!
         val expectedSellerWallet = (5 * (1 - DataStorage.COMMISSION_FEE_PERCENTAGE * 0.01)).roundToLong()
 
-        buyOrderTwo.addOrder()
-        sellOrderTwo.addOrder()
+        OrderRepository.addOrder(buyOrderTwo)
+        OrderRepository.addOrder(sellOrderTwo)
         OrderServices.matchOrders()
         assertEquals(10000 - 5, buyer.getFreeMoney())
         assertEquals(expectedSellerWallet, seller.getFreeMoney())
@@ -99,9 +99,9 @@ class TestOrderExecution {
         val buyer = UserRepository.getUser("jake")!!
         val seller = UserRepository.getUser("amy")!!
 
-        sellOrderThree.addOrder()
-        sellOrderTwo.addOrder()
-        buyOrderTwo.addOrder()
+        OrderRepository.addOrder(sellOrderThree)
+        OrderRepository.addOrder(sellOrderTwo)
+        OrderRepository.addOrder(buyOrderTwo)
         OrderServices.matchOrders()
         assertEquals("Unfilled", seller.orders[0].status)
         assertEquals(10, seller.orders[0].price)
@@ -117,9 +117,9 @@ class TestOrderExecution {
         val buyer = UserRepository.getUser("jake")!!
         val seller = UserRepository.getUser("amy")!!
 
-        buyOrderFour.addOrder()
-        buyOrderTwo.addOrder()
-        sellOrderTwo.addOrder()
+        OrderRepository.addOrder(buyOrderFour)
+        OrderRepository.addOrder(buyOrderTwo)
+        OrderRepository.addOrder(sellOrderTwo)
         OrderServices.matchOrders()
         assertEquals("Unfilled", buyer.orders[0].status)
         assertEquals(5, buyer.orders[0].price)
@@ -134,9 +134,9 @@ class TestOrderExecution {
         val buyer = UserRepository.getUser("jake")!!
         val seller = UserRepository.getUser("amy")!!
 
-        sellOrderTwo.addOrder()
-        performanceOrderTwo.addOrder()
-        buyOrderTwo.addOrder()
+        OrderRepository.addOrder(sellOrderTwo)
+        OrderRepository.addOrder(performanceOrderTwo)
+        OrderRepository.addOrder(buyOrderTwo)
         OrderServices.matchOrders()
         assertEquals("Unfilled", seller.orders[0].status)
         assertEquals(5, seller.orders[0].price)
@@ -151,8 +151,8 @@ class TestOrderExecution {
     fun `buyer should get non-performance ESOP even if seller sells performance ESOPs`() {
         val buyer = UserRepository.getUser("jake")!!
 
-        performanceOrderTwo.addOrder()
-        buyOrderTwo.addOrder()
+        OrderRepository.addOrder(performanceOrderTwo)
+        OrderRepository.addOrder(buyOrderTwo)
         OrderServices.matchOrders()
         assertEquals(0, buyer.getLockedPerformanceInventory())
         assertEquals(0, buyer.getFreePerformanceInventory())
@@ -165,9 +165,9 @@ class TestOrderExecution {
         val buyer = UserRepository.getUser("jake")!!
         val seller = UserRepository.getUser("amy")!!
 
-        performanceOrderTwo.addOrder()
-        performanceOrderThree.addOrder()
-        buyOrderTwo.addOrder()
+        OrderRepository.addOrder(performanceOrderTwo)
+        OrderRepository.addOrder(performanceOrderThree)
+        OrderRepository.addOrder(buyOrderTwo)
         OrderServices.matchOrders()
         assertEquals(10000 - 10, buyer.getFreeMoney())
         assertEquals(0, buyer.getLockedMoney())
