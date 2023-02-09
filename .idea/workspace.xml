@@ -4,17 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="087ca9a3-d9d4-4480-8279-89e53d09d8d0" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/esop-trading-2023-b3po.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+    <list default="true" id="087ca9a3-d9d4-4480-8279-89e53d09d8d0" name="Changes" comment="create order validations">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/models/Order.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/models/Order.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/services/OrderServices.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/services/OrderServices.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/kotlin/controller/TestFeeCollection.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/controller/TestFeeCollection.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/kotlin/controller/UserControllerTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/controller/UserControllerTest.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/kotlin/controller/WalletControllerTest.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/controller/WalletControllerTest.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/kotlin/models/TestOrderCreation.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/models/TestOrderCreation.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/kotlin/models/TestOrderExecution.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/kotlin/models/TestOrderExecution.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,15 +50,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "/Users/amaans/work/b3po-clone"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/amaans/work/b3po-clone&quot;
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="CreateKotlinClassDialog.RecentsKey">
+      <recent name="models" />
+    </key>
+    <key name="MoveKotlinTopLevelDeclarationsDialog.RECENTS_KEY">
+      <recent name="validations" />
+    </key>
+  </component>
   <component name="RunManager" selected="Gradle.Tests in 'esop_trading.test'">
-    <configuration name="TestOrderCreation.order details for fully filled order is set correctly" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="TestFeeCollection" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -80,7 +79,30 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;models.TestOrderCreation.order details for fully filled order is set correctly&quot;" />
+            <option value="&quot;controller.TestFeeCollection&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="TestOrderCreation" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;models.TestOrderCreation&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -113,6 +135,29 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
+    <configuration name="TestOrderExecution" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;models.TestOrderExecution&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
     <configuration name="Tests in 'esop_trading.test'" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -134,59 +179,13 @@
       <DebugAllEnabled>false</DebugAllEnabled>
       <method v="2" />
     </configuration>
-    <configuration name="UserControllerTest.shouldThrowErrorsForInvalidUser" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;controller.UserControllerTest.shouldThrowErrorsForInvalidUser&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <method v="2" />
-    </configuration>
-    <configuration name="WalletControllerTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;controller.WalletControllerTest&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Gradle.Tests in 'esop_trading.test'" />
+        <item itemvalue="Gradle.TestOrderExecution" />
+        <item itemvalue="Gradle.TestFeeCollection" />
+        <item itemvalue="Gradle.TestOrderCreation" />
         <item itemvalue="Gradle.TestOrderCreation.order details for partially filled order is set correctly" />
-        <item itemvalue="Gradle.TestOrderCreation.order details for fully filled order is set correctly" />
-        <item itemvalue="Gradle.WalletControllerTest" />
-        <item itemvalue="Gradle.UserControllerTest.shouldThrowErrorsForInvalidUser" />
       </list>
     </recent_temporary>
   </component>
@@ -199,6 +198,85 @@
       <option name="presentableId" value="Default" />
       <updated>1674450318755</updated>
     </task>
+    <task id="LOCAL-00001" summary="refactor: fee and validation tests">
+      <created>1675941523743</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1675941523743</updated>
+    </task>
+    <task id="LOCAL-00002" summary="refactor: order creation and execution tests">
+      <created>1675941601809</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1675941601809</updated>
+    </task>
+    <task id="LOCAL-00003" summary="refactor: order controller">
+      <created>1675945004763</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1675945004763</updated>
+    </task>
+    <task id="LOCAL-00004" summary="refactor: extracted add order to order repository from order class">
+      <created>1675945103976</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1675945103976</updated>
+    </task>
+    <task id="LOCAL-00005" summary="move validations from services to validations">
+      <created>1675945665748</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1675945665748</updated>
+    </task>
+    <task id="LOCAL-00006" summary="refactor: order service | modify imports">
+      <created>1675945797758</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1675945797758</updated>
+    </task>
+    <task id="LOCAL-00007" summary="create order response and request class">
+      <created>1675945827500</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1675945827500</updated>
+    </task>
+    <task id="LOCAL-00008" summary="create order validations">
+      <created>1675945859034</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1675945859034</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="refactor: fee and validation tests" />
+    <MESSAGE value="refactor: order creation and execution tests" />
+    <MESSAGE value="refactor: order controller" />
+    <MESSAGE value="refactor: extracted add order to order repository from order class" />
+    <MESSAGE value="move validations from services to validations" />
+    <MESSAGE value="refactor: order service | modify imports" />
+    <MESSAGE value="create order response and request class" />
+    <MESSAGE value="create order validations" />
+    <option name="LAST_COMMIT_MESSAGE" value="create order validations" />
   </component>
 </project>
