@@ -12,8 +12,22 @@ import kotlin.math.min
 import kotlin.math.roundToLong
 
 
-class OrderServices {
+class OrderServices private constructor(){
+
     companion object {
+
+        private var orderServices: OrderServices? = null
+
+        @Synchronized
+        fun getInstance(): OrderServices {
+
+            if (orderServices == null) {
+                orderServices = OrderServices()
+            }
+
+            return orderServices as OrderServices
+        }
+
         private val logger: Logger = LoggerFactory.getLogger(OrderServices::class.java)
 
         fun matchOrders() {

@@ -2,6 +2,7 @@ package services
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import validations.Validations
 
 class TestPhoneNumberValidations {
     @Test
@@ -36,7 +37,7 @@ class TestPhoneNumberValidations {
 
     @Test
     fun `should accept 14 digit phone number `() {
-        val errorList=Validations.validatePhoneNumber("+2139307708611")
+        val errorList= Validations.validatePhoneNumber("+2139307708611")
         assertEquals(0,errorList.size)
     }
 
