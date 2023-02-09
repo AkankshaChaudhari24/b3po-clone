@@ -14,7 +14,7 @@ import services.saveUser
 class UserController {
     @Post("/register")
     fun register(@Body body: RegisterInput): HttpResponse<RegisterResponse> {
-        val errorList = arrayListOf<String>()
+        val errorList = Validations.validateRegisterInput(body)
 
         val firstName: String? = body.firstName?.trim()
         val lastName: String? = body.lastName?.trim()
@@ -22,11 +22,6 @@ class UserController {
         val emailID: String? = body.emailID?.trim()
         val userName: String? = body.userName?.trim()
 
-        for (error in Validations.validateFirstName(firstName)) errorList.add(error)
-        for (error in Validations.validateLastName(lastName)) errorList.add(error)
-        for (error in Validations.validatePhoneNumber(phoneNumber)) errorList.add(error)
-        for (error in Validations.validateEmailIds(emailID)) errorList.add(error)
-        for (error in Validations.validateUserName(userName)) errorList.add(error)
 
         if (errorList.isEmpty()) {
             if (userName != null && firstName != null && lastName != null && phoneNumber != null && emailID != null) {
