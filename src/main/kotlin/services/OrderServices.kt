@@ -14,7 +14,7 @@ import kotlin.math.roundToLong
 
 class OrderServices {
     companion object {
-        val logger: Logger = LoggerFactory.getLogger(OrderServices::class.java)
+        private val logger: Logger = LoggerFactory.getLogger(OrderServices::class.java)
 
         fun matchOrders() {
             val buyOrders = OrderRepository.getBuyList()
