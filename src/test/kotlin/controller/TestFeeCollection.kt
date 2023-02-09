@@ -84,6 +84,6 @@ class TestFeeCollection {
 
         val response = client.toBlocking().retrieve(request, FeeResponse::class.java)
 
-        assertEquals(BigInteger.valueOf(1L), response.totalFees)
+        assertEquals(BigInteger.valueOf(2L), response.totalFees)
     }
 }

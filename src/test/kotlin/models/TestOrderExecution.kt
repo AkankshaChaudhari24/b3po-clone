@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import repositories.OrderRepository
 import repositories.UserRepository
+import services.OrderServices
 import services.saveUser
 import kotlin.math.roundToLong
 
@@ -71,7 +72,7 @@ class TestOrderExecution {
         buyOrderOne.addOrder()
         buyOrderOne.addOrder()
         sellOrderOne.addOrder()
-
+        OrderServices.matchOrders()
         assert(OrderRepository.getBuyList().isEmpty())
         assert(OrderRepository.getSellList().isEmpty())
         assertEquals(9850, buyer.getFreeMoney())
@@ -88,7 +89,7 @@ class TestOrderExecution {
 
         buyOrderTwo.addOrder()
         sellOrderTwo.addOrder()
-
+        OrderServices.matchOrders()
         assertEquals(10000 - 5, buyer.getFreeMoney())
         assertEquals(expectedSellerWallet, seller.getFreeMoney())
     }
@@ -99,9 +100,9 @@ class TestOrderExecution {
         val seller = UserRepository.getUser("amy")!!
 
         sellOrderThree.addOrder()
-        sellOrderThree.addOrder()
+        sellOrderTwo.addOrder()
         buyOrderTwo.addOrder()
-
+        OrderServices.matchOrders()
         assertEquals("Unfilled", seller.orders[0].status)
         assertEquals(10, seller.orders[0].price)
         assertEquals("Filled", seller.orders[1].status)
@@ -119,6 +120,7 @@ class TestOrderExecution {
         buyOrderFour.addOrder()
         buyOrderTwo.addOrder()
         sellOrderTwo.addOrder()
+        OrderServices.matchOrders()
         assertEquals("Unfilled", buyer.orders[0].status)
         assertEquals(5, buyer.orders[0].price)
         assertEquals("Filled", buyer.orders[1].status)
@@ -133,8 +135,9 @@ class TestOrderExecution {
         val seller = UserRepository.getUser("amy")!!
 
         sellOrderTwo.addOrder()
-        sellOrderThree.addOrder()
+        performanceOrderTwo.addOrder()
         buyOrderTwo.addOrder()
+        OrderServices.matchOrders()
         assertEquals("Unfilled", seller.orders[0].status)
         assertEquals(5, seller.orders[0].price)
         assertEquals("Filled", seller.orders[1].status)
@@ -147,10 +150,10 @@ class TestOrderExecution {
     @Test
     fun `buyer should get non-performance ESOP even if seller sells performance ESOPs`() {
         val buyer = UserRepository.getUser("jake")!!
-        val seller = UserRepository.getUser("amy")!!
 
         performanceOrderTwo.addOrder()
         buyOrderTwo.addOrder()
+        OrderServices.matchOrders()
         assertEquals(0, buyer.getLockedPerformanceInventory())
         assertEquals(0, buyer.getFreePerformanceInventory())
         assertEquals(0, buyer.getLockedInventory())
@@ -165,6 +168,7 @@ class TestOrderExecution {
         performanceOrderTwo.addOrder()
         performanceOrderThree.addOrder()
         buyOrderTwo.addOrder()
+        OrderServices.matchOrders()
         assertEquals(10000 - 10, buyer.getFreeMoney())
         assertEquals(0, buyer.getLockedMoney())
         assertEquals("Filled", seller.orders[0].status)

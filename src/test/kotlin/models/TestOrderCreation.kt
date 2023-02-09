@@ -10,6 +10,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import repositories.OrderRepository
 import repositories.UserRepository
+import services.OrderServices
 import services.saveUser
 
 class TestOrderCreation {
@@ -33,8 +34,8 @@ class TestOrderCreation {
         )
         saveUser(user)
         buyOrderOne = Order(userName = user.username, quantity = 1, price = 100, type = "BUY")
-        buyOrderTwo = Order(userName = user.username, quantity = 2, price = 100, type = "BUY")
         buyOrderThree = Order(userName = user.username, quantity = 15, price = 10, type = "BUY")
+        buyOrderTwo = Order(userName = user.username, quantity = 2, price = 100, type = "BUY")
         sellOrderOne = Order(userName = user.username, quantity = 1, price = 100, type = "SELL")
         sellOrderTwo = Order(userName = user.username, quantity = 1, price = 15, type = "SELL")
         performanceOrderOne =
@@ -258,8 +259,11 @@ class TestOrderCreation {
         saveUser(seller)
         buyer.addMoneyToWallet(200)
         seller.addEsopToInventory(1)
+        buyOrderTwo = Order(userName = buyer.username, quantity = 2, price = 100, type = "BUY")
+        sellOrderOne = Order(userName = seller.username, quantity = 1, price = 100, type = "SELL")
         buyOrderTwo.addOrder()
         sellOrderOne.addOrder()
+        OrderServices.matchOrders()
         val orderDetails = buyer.getOrderDetails()
 
         assertEquals(1, orderDetails.size)
@@ -293,17 +297,17 @@ class TestOrderCreation {
         seller.addEsopToInventory(1)
 
         buyOrderTwo = Order(userName = "user1", quantity = 2, price = 100, type = "BUY")
-        val sellOrderOne = Order(userName = "user2", quantity = 1, price = 15, type = "SELL")
+        sellOrderOne = Order(userName = "user2", quantity = 1, price = 15, type = "SELL")
 
         buyOrderTwo.addOrder()
         sellOrderOne.addOrder()
-
+        OrderServices.matchOrders()
         val orderDetails = seller.getOrderDetails()
 
         assertEquals(1, orderDetails.size)
         assert(orderDetails.keys.contains("order_history"))
         assertEquals(
-            "{order_id=2, quantity=2, type=SELL, price=15, filled=[{price=15, quantity=1}]}",
+            "{order_id=2, quantity=1, type=SELL, price=15, filled=[{price=15, quantity=1}]}",
             orderDetails["order_history"]!![0].toString()
         )
     }
