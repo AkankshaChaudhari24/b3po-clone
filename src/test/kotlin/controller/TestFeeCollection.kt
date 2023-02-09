@@ -65,8 +65,8 @@ class TestFeeCollection {
 
     @Test
     fun `total fee should be 2 percent of total transaction`() {
-        order1.addOrder()
-        order2.addOrder()
+        OrderRepository.addOrder(order1)
+        OrderRepository.addOrder(order2)
         OrderServices.matchOrders()
         val request = HttpRequest.GET<FeeResponse>("/fees")
 
@@ -77,8 +77,8 @@ class TestFeeCollection {
 
     @Test
     fun `total fee should be rounded and not floored`() {
-        order1.addOrder()
-        order2.addOrder()
+        OrderRepository.addOrder(order1)
+        OrderRepository.addOrder(order2)
         OrderServices.matchOrders()
         val request = HttpRequest.GET<FeeResponse>("/fees")
 
