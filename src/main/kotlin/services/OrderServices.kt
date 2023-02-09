@@ -13,24 +13,6 @@ import kotlin.math.roundToLong
 
 
 object OrderServices {
-
-
-//    @Synchronized
-//    fun getInstance(): OrderServices {
-//        if (orderServices == null) {
-//            orderServices = OrderServices()
-//        }
-//
-//        return orderServices as OrderServices
-//    }
-//
-//    @Synchronized
-//    fun removeInstance() {
-//        if (orderServices != null) {
-//            orderServices = null
-//        }
-//    }
-
     private val logger: Logger = LoggerFactory.getLogger(OrderServices::class.java)
 
     fun matchOrders() {
@@ -91,13 +73,17 @@ object OrderServices {
         return min(buyOrder.remainingOrderQuantity, sellOrder.remainingOrderQuantity)
     }
 
+    val ZERO_POINT_ZERO_ONE = 0.01
+    val ONE = 1
+    val COMMISION_FEE_INTO_ZERO_POINT_ZERO_ONE = DataStorage.COMMISSION_FEE_PERCENTAGE * ZERO_POINT_ZERO_ONE
     private fun updateSellerInventoryAndWallet(
         sellOrder: Order, orderQuantity: Long, orderExecutionPrice: Long, isPerformanceESOP: Boolean
     ) {
         val seller = UserRepository.getUser(sellOrder.userName)
         val orderAmount = orderQuantity * orderExecutionPrice
         seller!!.updateLockedInventory(orderQuantity, isPerformanceESOP)
-        seller.addMoneyToWallet((orderAmount * (1 - DataStorage.COMMISSION_FEE_PERCENTAGE * 0.01)).roundToLong())
+        val ONE_MINUS_COMMISION_FEE_INTO_ZERO_POINT_ZERO_ONE = ONE - COMMISION_FEE_INTO_ZERO_POINT_ZERO_ONE
+        seller.addMoneyToWallet((orderAmount * ONE_MINUS_COMMISION_FEE_INTO_ZERO_POINT_ZERO_ONE).roundToLong())
     }
 
     private fun updateBuyerInventoryAndWallet(buyOrder: Order, orderQuantity: Long, orderExecutionPrice: Long) {

@@ -10,8 +10,8 @@ import java.util.*
 object OrderRepository {
 
 
-    private val buyList = PriorityQueue<Order>(BuyOrderingComparator)
-    private val sellList = PriorityQueue<Order>(SellOrderingComparator)
+    private val buyList = PriorityQueue(BuyOrderingComparator)
+    private val sellList = PriorityQueue(SellOrderingComparator)
     private val performanceSellList = LinkedList<Order>()
 
     private var orderId: Long = 1L
