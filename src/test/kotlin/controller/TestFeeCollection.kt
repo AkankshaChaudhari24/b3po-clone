@@ -20,12 +20,13 @@ import services.saveUser
 import java.math.BigInteger
 
 @MicronautTest
-class TestFeeCollection {
+class TestFeeCollection() {
     @Inject
     @field:Client("/")
     lateinit var client: HttpClient
     lateinit var order1: Order
     lateinit var order2: Order
+    private var orderServices: OrderServices = OrderServices
 
     @BeforeEach
     fun setUp() {
@@ -43,14 +44,8 @@ class TestFeeCollection {
 
     @AfterEach
     fun tearDown() {
-        UserRepository.clearUserList()
-        UserRepository.clearEmailList()
-        UserRepository.clearPhoneNumberList()
-        OrderRepository.clearBuyList()
-        OrderRepository.clearSellList()
-        OrderRepository.clearPerformanceSellList()
-        OrderRepository.setOrderId(1L)
-        OrderRepository.setOrderExecutionId(1L)
+        UserRepository.clearUserRepository()
+        OrderRepository.clearOrderRepository()
         DataStorage.TOTAL_FEE_COLLECTED = BigInteger.valueOf(0)
     }
 
@@ -67,7 +62,7 @@ class TestFeeCollection {
     fun `total fee should be 2 percent of total transaction`() {
         OrderRepository.addOrder(order1)
         OrderRepository.addOrder(order2)
-        OrderServices.matchOrders()
+        orderServices.matchOrders()
         val request = HttpRequest.GET<FeeResponse>("/fees")
 
         val response = client.toBlocking().retrieve(request, FeeResponse::class.java)
@@ -79,7 +74,7 @@ class TestFeeCollection {
     fun `total fee should be rounded and not floored`() {
         OrderRepository.addOrder(order1)
         OrderRepository.addOrder(order2)
-        OrderServices.matchOrders()
+        orderServices.matchOrders()
         val request = HttpRequest.GET<FeeResponse>("/fees")
 
         val response = client.toBlocking().retrieve(request, FeeResponse::class.java)
