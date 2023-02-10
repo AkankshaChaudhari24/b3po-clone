@@ -8,8 +8,6 @@ import services.SellOrderingComparator
 import java.util.*
 
 object OrderRepository {
-
-
     private val buyList = PriorityQueue(BuyOrderingComparator)
     private val sellList = PriorityQueue(SellOrderingComparator)
     private val performanceSellList = LinkedList<Order>()

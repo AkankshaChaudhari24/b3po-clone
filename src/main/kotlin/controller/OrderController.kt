@@ -5,7 +5,6 @@ import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.PathVariable
 import io.micronaut.http.annotation.Post
-import jakarta.inject.Inject
 import models.Order
 import models.OrderRequest
 import models.OrderResponse
@@ -15,9 +14,6 @@ import validations.OrderValidations
 
 @Controller("/user")
 class OrderController {
-    @Inject
-    lateinit var orderServices: OrderServices
-
     @Post("/{userName}/createOrder")
     fun createOrder(@Body orderRequest: OrderRequest, @PathVariable userName: String): HttpResponse<OrderResponse> {
         val orderValidations = OrderValidations()
@@ -31,7 +27,7 @@ class OrderController {
             esopType = orderRequest.esopType
         )
         OrderRepository.addOrder(order)
-        orderServices.matchOrders()
+        OrderServices.matchOrders()
         return HttpResponse.ok(OrderResponse(order.quantity, order.type, order.price))
     }
 }
