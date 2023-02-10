@@ -7,7 +7,7 @@ import models.DataStorage
 import models.FeeResponse
 
 @Controller("/fees")
-class FeeCollectedController {
+class FeeCollectedController() {
     @Get("/")
     fun getFees(): HttpResponse<FeeResponse> {
         println(DataStorage.TOTAL_FEE_COLLECTED)

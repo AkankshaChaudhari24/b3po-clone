@@ -13,7 +13,7 @@ import repositories.UserRepository
 import services.OrderServices
 import services.saveUser
 
-class TestOrderCreation {
+class TestOrderCreation() {
     private lateinit var buyOrderOne: Order
     private lateinit var buyOrderTwo: Order
     private lateinit var buyOrderThree: Order
@@ -22,6 +22,8 @@ class TestOrderCreation {
     private lateinit var user: User
     private lateinit var performanceOrderOne: Order
     private lateinit var performanceOrderTwo: Order
+    private var orderServices: OrderServices = OrderServices
+
 
     @BeforeEach
     fun `set up`() {
@@ -42,18 +44,13 @@ class TestOrderCreation {
             Order(userName = user.username, quantity = 1, price = 100, type = "SELL", esopType = "PERFORMANCE")
         performanceOrderTwo =
             Order(userName = user.username, quantity = 1, price = 10, type = "SELL", esopType = "PERFORMANCE")
+
     }
 
     @AfterEach
     fun tearDown() {
-        UserRepository.clearUserList()
-        UserRepository.clearEmailList()
-        UserRepository.clearPhoneNumberList()
-        OrderRepository.clearBuyList()
-        OrderRepository.clearSellList()
-        OrderRepository.clearPerformanceSellList()
-        OrderRepository.setOrderId(1L)
-        OrderRepository.setOrderExecutionId(1L)
+        UserRepository.clearUserRepository()
+        OrderRepository.clearOrderRepository()
     }
 
     @Test
@@ -264,7 +261,7 @@ class TestOrderCreation {
         
         OrderRepository.addOrder(buyOrderTwo)
         OrderRepository.addOrder(sellOrderOne)
-        OrderServices.matchOrders()
+        orderServices.matchOrders()
         val orderDetails = buyer.getOrderDetails()
 
         assertEquals(1, orderDetails.size)
@@ -302,7 +299,7 @@ class TestOrderCreation {
 
         OrderRepository.addOrder(buyOrderTwo)
         OrderRepository.addOrder(sellOrderOne)
-        OrderServices.matchOrders()
+        orderServices.matchOrders()
         val orderDetails = seller.getOrderDetails()
 
         assertEquals(1, orderDetails.size)

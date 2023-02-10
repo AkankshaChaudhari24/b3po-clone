@@ -21,6 +21,7 @@ class TestOrderExecution {
     private lateinit var performanceOrderOne: Order
     private lateinit var performanceOrderTwo: Order
     private lateinit var performanceOrderThree: Order
+    private var orderServices: OrderServices = OrderServices
 
     @BeforeEach
     fun setup() {
@@ -43,23 +44,14 @@ class TestOrderExecution {
             Order(userName = seller.username, quantity = 1, price = 10, type = "SELL", esopType = "PERFORMANCE")
         performanceOrderThree =
             Order(userName = seller.username, quantity = 1, price = 5, type = "SELL", esopType = "PERFORMANCE")
-
         saveUser(buyer)
         saveUser(seller)
     }
 
     @AfterEach
     fun tearDown() {
-        UserRepository.clearUserList()
-        UserRepository.clearEmailList()
-        UserRepository.clearPhoneNumberList()
-
-
-        OrderRepository.clearBuyList()
-        OrderRepository.clearSellList()
-        OrderRepository.clearPerformanceSellList()
-        OrderRepository.setOrderId(1L)
-        OrderRepository.setOrderExecutionId(1L)
+        UserRepository.clearUserRepository()
+        OrderRepository.clearOrderRepository()
     }
 
     @Test
@@ -72,7 +64,7 @@ class TestOrderExecution {
         OrderRepository.addOrder(buyOrderOne)
         OrderRepository.addOrder(buyOrderOne)
         OrderRepository.addOrder(sellOrderOne)
-        OrderServices.matchOrders()
+        orderServices.matchOrders()
         assert(OrderRepository.getBuyList().isEmpty())
         assert(OrderRepository.getSellList().isEmpty())
         assertEquals(9850, buyer.getFreeMoney())
@@ -89,7 +81,7 @@ class TestOrderExecution {
 
         OrderRepository.addOrder(buyOrderTwo)
         OrderRepository.addOrder(sellOrderTwo)
-        OrderServices.matchOrders()
+        orderServices.matchOrders()
         assertEquals(10000 - 5, buyer.getFreeMoney())
         assertEquals(expectedSellerWallet, seller.getFreeMoney())
     }
@@ -102,7 +94,7 @@ class TestOrderExecution {
         OrderRepository.addOrder(sellOrderThree)
         OrderRepository.addOrder(sellOrderTwo)
         OrderRepository.addOrder(buyOrderTwo)
-        OrderServices.matchOrders()
+        orderServices.matchOrders()
         assertEquals("Unfilled", seller.orders[0].status)
         assertEquals(10, seller.orders[0].price)
         assertEquals("Filled", seller.orders[1].status)
@@ -120,7 +112,7 @@ class TestOrderExecution {
         OrderRepository.addOrder(buyOrderFour)
         OrderRepository.addOrder(buyOrderTwo)
         OrderRepository.addOrder(sellOrderTwo)
-        OrderServices.matchOrders()
+        orderServices.matchOrders()
         assertEquals("Unfilled", buyer.orders[0].status)
         assertEquals(5, buyer.orders[0].price)
         assertEquals("Filled", buyer.orders[1].status)
@@ -137,7 +129,7 @@ class TestOrderExecution {
         OrderRepository.addOrder(sellOrderTwo)
         OrderRepository.addOrder(performanceOrderTwo)
         OrderRepository.addOrder(buyOrderTwo)
-        OrderServices.matchOrders()
+        orderServices.matchOrders()
         assertEquals("Unfilled", seller.orders[0].status)
         assertEquals(5, seller.orders[0].price)
         assertEquals("Filled", seller.orders[1].status)
@@ -153,7 +145,7 @@ class TestOrderExecution {
 
         OrderRepository.addOrder(performanceOrderTwo)
         OrderRepository.addOrder(buyOrderTwo)
-        OrderServices.matchOrders()
+        orderServices.matchOrders()
         assertEquals(0, buyer.getLockedPerformanceInventory())
         assertEquals(0, buyer.getFreePerformanceInventory())
         assertEquals(0, buyer.getLockedInventory())
@@ -168,7 +160,7 @@ class TestOrderExecution {
         OrderRepository.addOrder(performanceOrderTwo)
         OrderRepository.addOrder(performanceOrderThree)
         OrderRepository.addOrder(buyOrderTwo)
-        OrderServices.matchOrders()
+        orderServices.matchOrders()
         assertEquals(10000 - 10, buyer.getFreeMoney())
         assertEquals(0, buyer.getLockedMoney())
         assertEquals("Filled", seller.orders[0].status)
