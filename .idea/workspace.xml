@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="087ca9a3-d9d4-4480-8279-89e53d09d8d0" name="Changes" comment="change security group name">
-      <change beforePath="$PROJECT_DIR$/Terraform/ec2/main.tf" beforeDir="false" afterPath="$PROJECT_DIR$/Terraform/ec2/main.tf" afterDir="false" />
+    <list default="true" id="087ca9a3-d9d4-4480-8279-89e53d09d8d0" name="Changes" comment="add security group name">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -271,7 +271,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679887850816</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="add security group name">
+      <created>1679887896584</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1679887896584</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -295,6 +302,7 @@
     <MESSAGE value="create order response and request class" />
     <MESSAGE value="create order validations" />
     <MESSAGE value="change security group name" />
-    <option name="LAST_COMMIT_MESSAGE" value="change security group name" />
+    <MESSAGE value="add security group name" />
+    <option name="LAST_COMMIT_MESSAGE" value="add security group name" />
   </component>
 </project>
