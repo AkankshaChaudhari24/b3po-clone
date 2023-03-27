@@ -108,7 +108,7 @@ jobs:
           distribution: corretto
           java-version: 17
       - name: Test
-        run: sudo ./gradlew test
+        run: sudo bash ./gradlew test
 
   build:
     needs: "terraformEC2"
