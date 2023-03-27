@@ -94,7 +94,7 @@ jobs:
         run: |
           cd Terraform
           cd ec2  
-          echo ip=$(terraform output instance_public_ip | sed 's/^.//;s/.$//') >> $GITHUB_OUTPUT
+          echo ip=$(Terraform outputs instance_public_ip | sed 's/^.//;s/.$//') >> $GITHUB_OUTPUT
       - name: SSH in instance
         env:
          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
