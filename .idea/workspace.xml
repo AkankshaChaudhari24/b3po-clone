@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="087ca9a3-d9d4-4480-8279-89e53d09d8d0" name="Changes" comment="create new job build for ssh">
+    <list default="true" id="087ca9a3-d9d4-4480-8279-89e53d09d8d0" name="Changes" comment="add test job">
       <change beforePath="$PROJECT_DIR$/.github/workflows/cicd.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/cicd.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -397,7 +398,28 @@
       <option name="project" value="LOCAL" />
       <updated>1679902368272</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="add ssh">
+      <created>1679902502685</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1679902502685</updated>
+    </task>
+    <task id="LOCAL-00029" summary="fix typo in terraform command">
+      <created>1679902700120</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1679902700120</updated>
+    </task>
+    <task id="LOCAL-00030" summary="add test job">
+      <created>1679903100002</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1679903100002</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -412,9 +434,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="refactor: order creation and execution tests" />
-    <MESSAGE value="refactor: order controller" />
-    <MESSAGE value="refactor: extracted add order to order repository from order class" />
     <MESSAGE value="move validations from services to validations" />
     <MESSAGE value="refactor: order service | modify imports" />
     <MESSAGE value="create order response and request class" />
@@ -437,6 +456,9 @@
     <MESSAGE value="gives correct path of output file" />
     <MESSAGE value="change outputs to output" />
     <MESSAGE value="create new job build for ssh" />
-    <option name="LAST_COMMIT_MESSAGE" value="create new job build for ssh" />
+    <MESSAGE value="add ssh" />
+    <MESSAGE value="fix typo in terraform command" />
+    <MESSAGE value="add test job" />
+    <option name="LAST_COMMIT_MESSAGE" value="add test job" />
   </component>
 </project>
