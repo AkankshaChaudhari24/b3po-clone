@@ -86,6 +86,7 @@ jobs:
           cd Terraform
           cd ec2
           terraform apply -auto-approve   
+
       - name: Export IP Address to environment variable
         id: ip_address
         env:
@@ -95,6 +96,11 @@ jobs:
           cd Terraform
           cd ec2  
           echo ip=$(Terraform output instance_public_ip | sed 's/^.//;s/.$//') >> $GITHUB_OUTPUT
+
+  build:
+    needs: "terraformEC2"
+    runs-on: ubuntu-latest
+    steps:
       - name: SSH in instance
         env:
          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
