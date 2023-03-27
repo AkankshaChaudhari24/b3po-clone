@@ -86,7 +86,15 @@ jobs:
           cd Terraform
           cd ec2
           terraform apply -auto-approve   
-          echo ip=$(terraform output instance_public_ip | sed 's/^.//;s/.$//') >> $GITHUB_OUTPUT
+      - name: Export IP Address to environment variable
+        id: ip_address
+        env:
+            AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+            cd terraform
+            cd ec2  
+            echo ip=$(terraform output instance_public_ip | sed 's/^.//;s/.$//') >> $GITHUB_OUTPUT
       - name: SSH in instance
         env:
          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
