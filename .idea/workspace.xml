@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="087ca9a3-d9d4-4480-8279-89e53d09d8d0" name="Changes" comment="add outputs.tf file">
-      <change beforePath="$PROJECT_DIR$/Terraform/ec2/main.tf" beforeDir="false" afterPath="$PROJECT_DIR$/Terraform/ec2/main.tf" afterDir="false" />
-    </list>
+    <list default="true" id="087ca9a3-d9d4-4480-8279-89e53d09d8d0" name="Changes" comment="change ipv4 og cidr_block to 192" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -327,7 +325,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679895780598</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="change ipv4 og cidr_block to 192">
+      <created>1679896092575</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1679896092575</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -359,6 +364,7 @@
     <MESSAGE value="change scope of backend" />
     <MESSAGE value="remove encryption algorithm from s3" />
     <MESSAGE value="add outputs.tf file" />
-    <option name="LAST_COMMIT_MESSAGE" value="add outputs.tf file" />
+    <MESSAGE value="change ipv4 og cidr_block to 192" />
+    <option name="LAST_COMMIT_MESSAGE" value="change ipv4 og cidr_block to 192" />
   </component>
 </project>
