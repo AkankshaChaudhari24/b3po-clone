@@ -41,7 +41,7 @@ data "aws_vpc" "selected" {
 
 resource "aws_subnet" "main" {
   vpc_id     = data.aws_vpc.selected.id
-  cidr_block = "10.0.0.192/28"
+  cidr_block = "10.0.0.200/28"
   tags       = {
     Name = "akanksha-gurukul"
   }

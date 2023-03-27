@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="087ca9a3-d9d4-4480-8279-89e53d09d8d0" name="Changes" comment="change scope of backend">
+    <list default="true" id="087ca9a3-d9d4-4480-8279-89e53d09d8d0" name="Changes" comment="remove encryption algorithm from s3">
+      <change afterPath="$PROJECT_DIR$/Terraform/ec2/outputs.tf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Terraform/s3/main.tf" beforeDir="false" afterPath="$PROJECT_DIR$/Terraform/s3/main.tf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Terraform/ec2/main.tf" beforeDir="false" afterPath="$PROJECT_DIR$/Terraform/ec2/main.tf" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -314,7 +315,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679894146075</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="remove encryption algorithm from s3">
+      <created>1679894609212</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1679894609212</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -344,6 +352,7 @@
     <MESSAGE value="remove destroy from steps" />
     <MESSAGE value="add backend in main.tf" />
     <MESSAGE value="change scope of backend" />
-    <option name="LAST_COMMIT_MESSAGE" value="change scope of backend" />
+    <MESSAGE value="remove encryption algorithm from s3" />
+    <option name="LAST_COMMIT_MESSAGE" value="remove encryption algorithm from s3" />
   </component>
 </project>
