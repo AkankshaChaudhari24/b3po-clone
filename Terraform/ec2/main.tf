@@ -4,6 +4,11 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 4.16"
     }
+    backend "s3" {
+      bucket = "akanksha-tf-gurukul"
+      key    = "gurukul.tfstate"
+      region = "us-east-1"
+    }
   }
 
   required_version = ">= 1.2.0"
