@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="087ca9a3-d9d4-4480-8279-89e53d09d8d0" name="Changes" comment="change ipv4 og cidr_block to 192" />
+    <list default="true" id="087ca9a3-d9d4-4480-8279-89e53d09d8d0" name="Changes" comment="remove ssh">
+      <change beforePath="$PROJECT_DIR$/.github/workflows/cicd.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/cicd.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -332,7 +335,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679896092575</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="remove ssh">
+      <created>1679896852618</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1679896852618</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -365,6 +375,7 @@
     <MESSAGE value="remove encryption algorithm from s3" />
     <MESSAGE value="add outputs.tf file" />
     <MESSAGE value="change ipv4 og cidr_block to 192" />
-    <option name="LAST_COMMIT_MESSAGE" value="change ipv4 og cidr_block to 192" />
+    <MESSAGE value="remove ssh" />
+    <option name="LAST_COMMIT_MESSAGE" value="remove ssh" />
   </component>
 </project>
