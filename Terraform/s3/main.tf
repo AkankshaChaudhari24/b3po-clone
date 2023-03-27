@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "my-bucket" {
-  bucket = "akanksha-gurukul"
+  bucket = "akanksha-tf-gurukul"
   versioning {
       enabled = true
     }
