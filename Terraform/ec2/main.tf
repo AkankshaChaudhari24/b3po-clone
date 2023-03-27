@@ -42,8 +42,8 @@ resource "aws_subnet" "main" {
   }
 }
 
-resource "aws_security_group" "allow_tls_akanksha" {
-  name        = "allow_tls_akanksha"
+resource "aws_security_group" "allow_tls_akanksha_group" {
+  name        = "allow_tls_akanksha_group"
   description = "Allow TLS inbound traffic"
   vpc_id      = data.aws_vpc.selected.id
 
@@ -65,7 +65,7 @@ resource "aws_security_group" "allow_tls_akanksha" {
   }
 
   tags = {
-    Name = "allow_tls_akanksha"
+    Name = "allow_tls_akanksha_group"
   }
 }
 
