@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="087ca9a3-d9d4-4480-8279-89e53d09d8d0" name="Changes" comment="remove destroy from steps">
+    <list default="true" id="087ca9a3-d9d4-4480-8279-89e53d09d8d0" name="Changes" comment="change scope of backend">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Terraform/ec2/main.tf" beforeDir="false" afterPath="$PROJECT_DIR$/Terraform/ec2/main.tf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Terraform/s3/main.tf" beforeDir="false" afterPath="$PROJECT_DIR$/Terraform/s3/main.tf" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -300,7 +300,21 @@
       <option name="project" value="LOCAL" />
       <updated>1679893706747</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="add backend in main.tf">
+      <created>1679893997175</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1679893997175</updated>
+    </task>
+    <task id="LOCAL-00015" summary="change scope of backend">
+      <created>1679894146075</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1679894146075</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -328,6 +342,8 @@
     <MESSAGE value="add terraform destroy in steps" />
     <MESSAGE value="change security group and subnet" />
     <MESSAGE value="remove destroy from steps" />
-    <option name="LAST_COMMIT_MESSAGE" value="remove destroy from steps" />
+    <MESSAGE value="add backend in main.tf" />
+    <MESSAGE value="change scope of backend" />
+    <option name="LAST_COMMIT_MESSAGE" value="change scope of backend" />
   </component>
 </project>
