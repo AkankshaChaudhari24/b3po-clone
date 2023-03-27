@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="087ca9a3-d9d4-4480-8279-89e53d09d8d0" name="Changes" comment="add security group name">
+    <list default="true" id="087ca9a3-d9d4-4480-8279-89e53d09d8d0" name="Changes" comment="add terraform destroy in steps">
+      <change beforePath="$PROJECT_DIR$/.github/workflows/cicd.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/cicd.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Terraform/ec2/main.tf" beforeDir="false" afterPath="$PROJECT_DIR$/Terraform/ec2/main.tf" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -278,7 +280,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679887896584</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="add terraform destroy in steps">
+      <created>1679888755794</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1679888755794</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -303,6 +312,7 @@
     <MESSAGE value="create order validations" />
     <MESSAGE value="change security group name" />
     <MESSAGE value="add security group name" />
-    <option name="LAST_COMMIT_MESSAGE" value="add security group name" />
+    <MESSAGE value="add terraform destroy in steps" />
+    <option name="LAST_COMMIT_MESSAGE" value="add terraform destroy in steps" />
   </component>
 </project>
