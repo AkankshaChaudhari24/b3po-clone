@@ -37,7 +37,7 @@ data "aws_vpc" "selected" {
 resource "aws_subnet" "main" {
   vpc_id     = data.aws_vpc.selected.id
   cidr_block = "10.0.0.128/28"
-  tags = {
+  tags       = {
     Name = "akanksha-gurukul"
   }
 }
@@ -73,7 +73,7 @@ resource "aws_instance" "app_server" {
   ami                         = "ami-00c39f71452c08778"
   instance_type               = "t2.micro"
   key_name                    = data.aws_key_pair.akanksha_key.key_name
-  vpc_security_group_ids      = [aws_security_group.allow_tls_akanksha.id]
+  vpc_security_group_ids      = [aws_security_group.allow_tls_akanksha_group.id]
   subnet_id                   = aws_subnet.main.id
   associate_public_ip_address = true
 
