@@ -95,7 +95,7 @@ jobs:
         run: |
           cd Terraform
           cd ec2  
-          echo ip=$(Terraform output instance_public_ip | sed 's/^.//;s/.$//') >> $GITHUB_OUTPUT
+          echo ip=$(terraform output instance_public_ip | sed 's/^.//;s/.$//') >> $GITHUB_OUTPUT
 
   build:
     needs: "terraformEC2"
