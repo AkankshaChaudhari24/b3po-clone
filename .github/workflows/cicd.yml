@@ -91,7 +91,7 @@ jobs:
         env:
          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
          SSH_HOST: ${{needs.terraformEC2.outputs.public_ip}}
-         run: |
+        run: |
            eval `ssh-agent`
            echo "$SSH_HOST"
            echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
