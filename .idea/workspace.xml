@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="087ca9a3-d9d4-4480-8279-89e53d09d8d0" name="Changes" comment="remove ssh">
+    <list default="true" id="087ca9a3-d9d4-4480-8279-89e53d09d8d0" name="Changes" comment="changes scope of run keyword">
       <change beforePath="$PROJECT_DIR$/.github/workflows/cicd.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/cicd.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
@@ -342,7 +342,21 @@
       <option name="project" value="LOCAL" />
       <updated>1679896852618</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="ssh into created instance">
+      <created>1679899358568</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1679899358568</updated>
+    </task>
+    <task id="LOCAL-00021" summary="changes scope of run keyword">
+      <created>1679899509131</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1679899509132</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -376,6 +390,8 @@
     <MESSAGE value="add outputs.tf file" />
     <MESSAGE value="change ipv4 og cidr_block to 192" />
     <MESSAGE value="remove ssh" />
-    <option name="LAST_COMMIT_MESSAGE" value="remove ssh" />
+    <MESSAGE value="ssh into created instance" />
+    <MESSAGE value="changes scope of run keyword" />
+    <option name="LAST_COMMIT_MESSAGE" value="changes scope of run keyword" />
   </component>
 </project>
